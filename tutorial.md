@@ -13,9 +13,13 @@
 ## 1.0 gcloudについて
 
 ## 1.1 ProjectID の指定
+```bash
+export PROJECT_ID=my-cool-project
+```
+
 
 ```bash
-gcloud config set project PROJECT_ID
+gcloud config set project $PROJECT_ID
 ```
 
 ## 1.2 必要なAPIの有効化
@@ -50,14 +54,30 @@ kubectl ...
 
 ## 3.0 ハンズオンのアプリケーションについて
 
+アプリケーションは `app1` のディレクトリに置いてあります。
+
 ```bash
-ls ...
+cd app1
+```
+
+main.go だけのシンプルなGoのwebサーバーです。
+
+```bash
+cat main.go
+```
+
+コンテナにするためのDockefileも用意しています。
+
+```bash
+cat Dockerfile
 ```
 
 ## 3.1 ビルド
 
+Cloud Buildを使用してビルドを行います。
+
 ```bash
-gcloud builds submit ...
+gcloud builds submit --tag=gcr.io/$PROJECT_ID/hands-on-app-1:v1
 ```
 
 ## 3.2 デプロイする
