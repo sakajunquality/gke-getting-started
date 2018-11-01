@@ -1,7 +1,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: app1-service
+  name: app2-service
   namespace: tutorial
   annotations:
     cloud.google.com/neg: '{"ingress": true}'

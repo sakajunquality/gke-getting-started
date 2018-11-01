@@ -277,12 +277,29 @@ cd app2
 gcloud builds submit --tag=gcr.io/$PROJECT_ID/hands-on-app-2:v1 .
 ```
 
+
+```bash
+cd ..
+```
+
 ## 5.2 デプロイする
 
 `[PROJECT_ID]` の部分を使用してるプロジェクト名に書き換えてください
 
 ```bash
 kubectl apply -f manifests/deployment2.yaml
+```
+
+deploymentsが増えていて
+
+```bash
+kubectl -n tutorial get deployments
+```
+
+podが増えていることを確認しましょう。
+
+```bash
+kubectl -n tutorial get pods
 ```
 
 ## 5.3 サービスの公開
