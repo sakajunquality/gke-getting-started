@@ -22,6 +22,3 @@ spec:
         ports:
         - containerPort: 8888
           protocol: TCP
-        envFrom:
-        - configMapRef:
-            name: app1-conf
