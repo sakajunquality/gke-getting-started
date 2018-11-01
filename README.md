@@ -24,7 +24,7 @@ Contents
 Instrutions
 ---
 
-- TBD
+- https://speakerdeck.com/sakajunquality/gke-getting-started
 
 
 Author
