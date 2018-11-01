@@ -115,7 +115,7 @@ main.go だけのシンプルなGoのwebサーバーです。
 cat main.go
 ```
 
-コンテナにするためのDockefileも用意しています。
+コンテナにするためのDockerfileも用意しています。
 
 ```bash
 cat Dockerfile
