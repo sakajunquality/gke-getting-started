@@ -260,7 +260,7 @@ kubectl apply -f manifests/deployment.yaml
 kubectl -n tutorial get pods
 ```
 
-### 3.3
+### 3.3 サービスにアクセスをする
 
 もう一度サービスにアクセスしてみましょう。
 メッセージが変わるはずです。
@@ -340,20 +340,16 @@ kubectl delete -f manifests/service.yaml
 kubectl delete -f manifests/service2.yaml
 ```
 
-```bash
-kubectl delete -f manifests/deployment.yaml
-```
-
-```bash
-kubectl delete -f manifests/deployment2.yaml
-```
-
-```bash
-kubectl delete -f manifests/config.yaml
-```
-
 ## 6.2 GCP リソースの削除
+
+GKE クラスターの削除
 
 ```bash
 gcloud container clusters delete my-hands-on-cluster --zone=asia-northeast1-b --async
+```
+
+静的 IP の削除
+
+```bash
+gcloud compute addresses delete hands-on-ip
 ```
