@@ -201,10 +201,16 @@ kubectl -n tutorial get svc
 kubectl apply -f manifests/ingress.yaml
 ```
 
-### 3.2.3 Ingress経由でロードバランサーの作成
+### 3.2.3 作成したロードバランサーの確認
 
 ```bash
 kubectl -n tutorial get ing
+```
+
+トラブったら・・・
+
+```bash
+kubectl -n tutorial describe ing k8s-lb
 ```
 
 # 4. アプリケーションのアップデート
@@ -215,7 +221,16 @@ kubectl -n tutorial get ing
 - 環境変数を使用して設定するようにする
 
 importsの中に`"os"`を加え、
-`fmt.Fprintf(w, "Hello!")` を `fmt.Fprintf(w, os.Getenv("HELLO_MESSAGE"))`
+
+```
+fmt.Fprintf(w, "Hello!")
+```
+
+を
+```
+fmt.Fprintf(w, os.Getenv("HELLO_MESSAGE"))
+```
+
 に書き換えを行ってください。
 
 ## 4.1.2 ビルド
@@ -245,6 +260,7 @@ kubectl apply -f manifests/configmap.yaml
 
 ### 4.2.2 イメージを更新する
 
+`manifests/deployment.yaml` の
 
 `v1` を `v2` に書き換え、
 
@@ -316,6 +332,10 @@ kubectl -n tutorial get pods
 
 ```bash
 kubectl apply -f manifests/service2.yaml
+```
+
+```bash
+kubectl -n tutorial get svc
 ```
 
 ## 5.4 パスルーティング
