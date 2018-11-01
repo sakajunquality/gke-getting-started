@@ -44,7 +44,7 @@ gcloud services enable \
 GKEのクラスターを作成します。ハンズオンなのでノードは1台にしてあります。
 
 ```bash
-gcloud container clusters create my-hands-on-cluster --num-nodes=1 --zone=asia-northeast1-b --async
+gcloud container clusters create my-hands-on-cluster --enable-ip-alias --num-nodes=1 --zone=asia-northeast1-b --async
 ```
 
 ### 1.4 クラスターの確認
@@ -55,9 +55,13 @@ gcloud container clusters create my-hands-on-cluster --num-nodes=1 --zone=asia-n
 gcloud container clusters list
 ```
 
+[GKEのコンソール](https://console.cloud.google.com/kubernetes/list)でも確認することができます。
+
+しばらくすると、STATUSがRUNNINGになります。
+
 # 2. kubectl 入門
 
-kubernetes-cliについて簡単に説明します
+次に、kubectl(kubernetes-cli)について簡単に説明します。
 
 ## 2.1 GKE クラスターに接続
 
@@ -67,16 +71,30 @@ gcloud container clusters get-credentials my-hands-on-cluster --zone asia-northe
 
 ## 2.2 kubectlでいくつか操作を行う
 
+GKEのノードの一覧を出してみましょう。
+
 ```bash
 kubectl get nodes
 ```
+
+また動いてるポッドの一覧を取得します。
 
 ```bash
 kubectl get pods
 ```
 
+※ 新規なのでリソースは空っぽです。
+
+## 2.3 ハンズオン用の namespace の作成
+
+今回作業用のnamespaceを作成します。
+
 ```bash
 kubectl create namespace tutorial
+```
+
+```bash
+kubectl get namespaces
 ```
 
 # 3 アプリケーションのデプロイ
@@ -111,16 +129,47 @@ Cloud Buildを使用してビルドを行います。
 gcloud builds submit --tag=gcr.io/$PROJECT_ID/hands-on-app-1:v1 .
 ```
 
+[Cloud Build](https://console.cloud.google.com/cloud-build/builds) の画面でもビルドの結果が確認できます。
+
+
+ビルドが終わったらイメージを確認しましょう。
+
+```bash
+gcloud container images list
+```
+
+また、ビルドされたイメージは、[Container Registry](https://console.cloud.google.com/gcr/images/ubie-sandbox)でも確認することができます。
+
+ビルドが終わったのでディレクトリを移動します。
+
 ```bash
 cd ..
 ```
 
 ## 3.2 デプロイする
 
-`[PROJECT_ID]` の部分を使用してるプロジェクト名に書き換えてください
+`manifests/deployment.yaml` の `[PROJECT_ID]` の部分を使用してるプロジェクト名に書き換えてください
+
+書き換えが終わったら、GKEに反映を行います。
 
 ```bash
 kubectl apply -f manifests/deployment.yaml
+```
+
+反映したら結果を確認しましょう。
+
+```bash
+kubectl -n tutorial rollout status deployment/app1
+```
+
+動いているpodも確認します。
+
+```bash
+kubectl -n tutorial get deployments
+```
+
+```bash
+kubectl -n tutorial get pods
 ```
 
 ## 3.2 サービスを公開する
@@ -140,6 +189,10 @@ gcloud compute addresses create hands-on-ip \
 kubectl apply -f manifests/service.yaml
 ```
 
+```bash
+kubectl -n tutorial get svc
+```
+
 ### 3.2.3 Ingress経由でロードバランサーの作成
 
 ```bash
@@ -154,7 +207,9 @@ kubectl apply -f manifests/ingress.yaml
 - helloのメッセージを変更する
 - 環境変数を使用して設定するようにする
 
-変更...
+importsの中に`"os"`を加え、
+`fmt.Fprintf(w, "Hello!")` を `fmt.Fprintf(w, os.Getenv("HELLO_MESSAGE"))`
+に書き換えを行ってください。
 
 ## 4.2 ビルド
 
@@ -167,7 +222,13 @@ v2としてビルド
 ```bash
 gcloud builds submit --tag=gcr.io/$PROJECT_ID/hands-on-app-1:v2 .
 ```
+
+```bash
+cd ..
+```
+
 ## 3.2 デプロイする
+ではv2のバージョンをデプロイしましょう。
 
 ### 3.2.1 環境変数をセットする
 
@@ -177,9 +238,32 @@ kubectl apply -f manifests/configmap.yaml
 
 ### 3.2.2 イメージを更新する
 
+
+`v1` を `v2` に書き換え、
+
+`containers`の中に次の設定を追記します。
+```
+        envFrom:
+        - configMapRef:
+            name: app1-conf
+```
+
+
 ```bash
 kubectl apply -f manifests/deployment.yaml
 ```
+
+
+ローリングアップデートが走っているのがわかります。
+
+```
+kubectl -n tutorial get pods
+```
+
+### 3.3
+
+もう一度サービスにアクセスしてみましょう。
+メッセージが変わるはずです。
 
 # 5. 2つ目のアプリケーションのデプロイ
 

@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: k8s-lb
   namespace: tutorial
-  anotations:
+  annotations:
     kubernetes.io/ingress.global-static-ip-name: "hands-on-ip"
 spec:
   backend:
