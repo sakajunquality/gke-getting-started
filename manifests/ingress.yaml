@@ -1,0 +1,11 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: k8s-lb
+  namespace: tutorial
+  anotations:
+    kubernetes.io/ingress.global-static-ip-name: "hands-on-ip"
+spec:
+  backend:
+    serviceName: app1-service
+    servicePort: 8081

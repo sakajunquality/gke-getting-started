@@ -75,6 +75,10 @@ kubectl get nodes
 kubectl get pods
 ```
 
+```bash
+kubectl create namespace tutorial
+```
+
 # 3 アプリケーションのデプロイ
 
 では実際にアプリケーションをデプロイしてみましょう
@@ -112,6 +116,8 @@ cd ..
 ```
 
 ## 3.2 デプロイする
+
+`[PROJECT_ID]` の部分を使用してるプロジェクト名に書き換えてください
 
 ```bash
 kubectl apply -f manifests/deployment.yaml
@@ -189,11 +195,21 @@ gcloud builds submit --tag=gcr.io/$PROJECT_ID/hands-on-app-2:v1 .
 
 ## 5.2 デプロイする
 
+`[PROJECT_ID]` の部分を使用してるプロジェクト名に書き換えてください
+
 ```bash
-kubectl apply -f manifests/deployment.yaml
+kubectl apply -f manifests/deployment2.yaml
 ```
 
-## 5.1 パスルーティング
+## 5.3 サービスの公開
+
+```bash
+kubectl apply -f manifests/service2.yaml
+```
+
+## 5.4 パスルーティング
+
+ingress.yamlの書き換え
 
 ```bash
 kubectl apply -f manifests/ingress.yaml
@@ -213,7 +229,15 @@ kubectl delete -f manifests/service.yaml
 ```
 
 ```bash
+kubectl delete -f manifests/service2.yaml
+```
+
+```bash
 kubectl delete -f manifests/deployment.yaml
+```
+
+```bash
+kubectl delete -f manifests/deployment2.yaml
 ```
 
 ```bash

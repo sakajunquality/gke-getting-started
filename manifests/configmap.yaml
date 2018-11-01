@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app1-conf
+  namespace: tutorial
+data:
+  HELLO_MESSAGE: "I LOVE GCP"

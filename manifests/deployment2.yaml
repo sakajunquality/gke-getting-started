@@ -1,24 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app1
+  name: app2
   namespace: tutorial
   labels:
-    app: app1
+    app: app2
 spec:
   replicas: 1
-  minReadySeconds: 10
   selector:
     matchLabels:
-      app: app1
+      app: app2
   template:
     metadata:
       labels:
-        app: app1
+        app: app2
     spec:
       containers:
       - name: app1
-        image: gcr.io/[PROJECT_ID]/hands-on-app-1:v1
+        image: gcr.io/[PROJECT_ID]/hands-on-app-2:v1
         ports:
-        - containerPort: 8888
-          protocol: TCP
+        - containerPort: 8080
