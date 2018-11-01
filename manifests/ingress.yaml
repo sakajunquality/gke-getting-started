@@ -6,6 +6,10 @@ metadata:
   annotations:
     kubernetes.io/ingress.global-static-ip-name: "hands-on-ip"
 spec:
-  backend:
-    serviceName: app1-service
-    servicePort: 8081
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: app1-service
+          servicePort: 8081

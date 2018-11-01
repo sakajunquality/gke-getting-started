@@ -310,7 +310,14 @@ kubectl apply -f manifests/service2.yaml
 
 ## 5.4 パスルーティング
 
-ingress.yamlの書き換え
+manifests/ingress.yamlのpathsに下記を追記します
+
+```
+      - path: /ping
+        backend:
+          serviceName: app2-service
+          servicePort: 8082
+```
 
 ```bash
 kubectl apply -f manifests/ingress.yaml
