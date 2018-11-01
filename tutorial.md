@@ -172,6 +172,8 @@ kubectl -n tutorial get deployments
 kubectl -n tutorial get pods
 ```
 
+[GKE Workloads](https://console.cloud.google.com/kubernetes/workload) でも確認できます
+
 ## 3.2 サービスを公開する
 
 ### 3.2.1 静的IPの確保
@@ -199,6 +201,11 @@ kubectl -n tutorial get svc
 kubectl apply -f manifests/ingress.yaml
 ```
 
+### 3.2.3 Ingress経由でロードバランサーの作成
+
+```bash
+kubectl -n tutorial get ing
+```
 
 # 4. アプリケーションのアップデート
 
@@ -211,7 +218,7 @@ importsの中に`"os"`を加え、
 `fmt.Fprintf(w, "Hello!")` を `fmt.Fprintf(w, os.Getenv("HELLO_MESSAGE"))`
 に書き換えを行ってください。
 
-## 4.2 ビルド
+## 4.1.2 ビルド
 
 ```bash
 cd app1
@@ -227,16 +234,16 @@ gcloud builds submit --tag=gcr.io/$PROJECT_ID/hands-on-app-1:v2 .
 cd ..
 ```
 
-## 3.2 デプロイする
+## 4.2 デプロイする
 ではv2のバージョンをデプロイしましょう。
 
-### 3.2.1 環境変数をセットする
+### 4.2.1 環境変数をセットする
 
 ```bash
 kubectl apply -f manifests/configmap.yaml
 ```
 
-### 3.2.2 イメージを更新する
+### 4.2.2 イメージを更新する
 
 
 `v1` を `v2` に書き換え、
@@ -256,7 +263,7 @@ kubectl apply -f manifests/deployment.yaml
 
 ローリングアップデートが走っているのがわかります。
 
-```
+```bash
 kubectl -n tutorial get pods
 ```
 
@@ -273,10 +280,13 @@ cd app2
 
 ## 5.1 ビルド
 
+app2をビルドします。
+
 ```bash
 gcloud builds submit --tag=gcr.io/$PROJECT_ID/hands-on-app-2:v1 .
 ```
 
+もとのディレクトリに戻ります。
 
 ```bash
 cd ..
@@ -319,9 +329,23 @@ manifests/ingress.yamlのpathsに下記を追記します
           servicePort: 8082
 ```
 
+追記したら反映します
+
 ```bash
 kubectl apply -f manifests/ingress.yaml
 ```
+
+
+```bash
+kubectl -n tutorial get ing
+```
+
+トラブったら・・・
+
+```bash
+kubectl -n tutorial describe ing k8s-lb
+```
+
 
 # 6. 掃除
 最後に、作成したリソースの削除を行う。
@@ -351,5 +375,8 @@ gcloud container clusters delete my-hands-on-cluster --zone=asia-northeast1-b --
 静的 IP の削除
 
 ```bash
-gcloud compute addresses delete hands-on-ip
+gcloud compute addresses delete hands-on-ip --global
 ```
+## the end
+
+おわり
