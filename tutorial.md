@@ -138,7 +138,7 @@ gcloud builds submit --tag=gcr.io/$PROJECT_ID/hands-on-app-1:v1 .
 gcloud container images list
 ```
 
-また、ビルドされたイメージは、[Container Registry](https://console.cloud.google.com/gcr/images/ubie-sandbox)でも確認することができます。
+また、ビルドされたイメージは、[Container Registry](https://console.cloud.google.com/gcr/images/)でも確認することができます。
 
 ビルドが終わったのでディレクトリを移動します。
 
