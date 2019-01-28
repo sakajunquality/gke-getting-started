@@ -1,0 +1,7 @@
+version: '3'
+services:
+  app:
+    build: .
+    image: "gcr.io/[PROJECT_ID]/app3"
+    ports:
+     - "8089:8089"
