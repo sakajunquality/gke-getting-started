@@ -2,13 +2,28 @@
 
 ## Agenda
 
-Tutorial Part.1 を終えている前提にします。
-もし終了した場合は、 `1. GKE クラスターの作成` を再度お願いします。
-
+- 0. はじめに
 - 1. 簡易Webアプリケーションの作成
 - 2. docker-composeからの移行
 - 3. skaffoldの紹介
 - 4. skaffoldを利用した開発
+- 5. 片付け
+- 6. まとめ
+
+# 0. はじめに
+Tutorial Part.1 を終えている前提にします。
+もし終了した場合は、 `1. GKE クラスターの作成` を再度お願いします。
+
+
+```bash
+cloudshell launch-tutorial -d tutorial.md
+```
+
+このPart. 1でが終わればと途中でチュートリアルをやめ、このチュートリアルに戻ってきてください。
+
+```bash
+cloudshell launch-tutorial -d tutorial2.md
+```
 
 # 1. 簡易Webアプリケーションの作成
 
@@ -23,7 +38,7 @@ cd ./app3
 
 ## 1.2 docker-composeでの起動してみる
 
-docker-compose.yamlの `[my-project-id]` をご自身のプロジェクトIDに変更してください
+docker-compose.yamlの `[PROJECT_ID]` をご自身のプロジェクトIDに変更してください
 
 ```bash
 docker-compose up
@@ -70,8 +85,15 @@ skaffold init --compose-file docker-compose.yaml
 
 ## 2.3 マニフェストの確認
 
-# 3. skaffoldの紹介
+`app-deployment.yaml` と `app-service.yaml` というファイルが作られていて、それぞれ、
 
+- `extensions/v1beta1.Deployment`
+- `v1.Service`
+
+のマニフェストが作成されています。
+また、 `skaffold.yaml` というファイルも生成されていますが、これについては後ほど説明します。
+
+# 3. skaffoldの紹介
 
 # 4. skaffoldを利用した開発
 
@@ -84,19 +106,62 @@ kubectl config current-context
 もし取得できていない場合は、、、
 
 ```bash
-skaffold ru
+gcloud container clusters get-credentials my-hands-on-cluster --zone us-west1-b
 ```
 
-## 4.2 runを試す
+念の為確認します
+
+```bash
+kubectl config current-context
+```
+
+## 4.2 skaffoldの設定の確認
+前項 2.3 にて生成された `skaffold.yaml` がskaffoldの設定ファイルです。
+
+## 4.3 runを試す
+
+run を実行することで、イメージのビルド・デプロイを行います。
 
 ```bash
 skaffold run
 ```
 
-## 4.2 devを試す
+## 4.4 ポートフォーワードで確認
+今回はローカルではなく、GKE上で動いているため `kubectl` コマンドを使用して先程作成したサービスにポートフォワードします。
+
+```bash
+kubectl port-forward svc/app 8089:8089
+```
+
+そして、docker-composeの際と同様にCloud Shellのポートフォワード機能で確認します。
+確認が終わったら Ctrl+cで止めます。
+
+## 4.5 devを試す
+
+今度は dev を試してみましょう
 
 ```bash
 skaffold dev
 ```
 
-## 4.3 (おまけ) Cloud Build でビルドを行うようにする
+## 4.6 ポートフォワードで確認
+
+4.4項と同じ方法で確認を行います。
+
+`Watching for changes every 1s...` とコンソールに出ている通り、
+devではソースコードの変更を検知して自動ででビルドとデプロイを行ってくれます。
+
+## 4.7 devを終了する
+
+Ctrl+cで終了できますが、devで作成したものをまとめて削除してくれます。
+
+# 5. 片付け
+
+最後にGKEのクラスターを削除します。
+
+```
+gcloud container clusters delete my-hands-on-cluster --zone=us-west1-b --async
+```
+
+# 6. まとめ
+ 
