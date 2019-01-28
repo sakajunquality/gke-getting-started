@@ -164,4 +164,7 @@ gcloud container clusters delete my-hands-on-cluster --zone=us-west1-b --async
 ```
 
 # 6. まとめ
- 
+
+環境起因のトラブルを避けるためすべてGCP上でハンズオンを行いましたが、
+最近のDocker CEのKubernetesやminikubeを使うことでローカルでもskaffoldを使用することができます。
+また、普段はminikubeを使って開発しつつ、他の人に確認してほしいときにGKEのクラスターに上げるということも可能です。
