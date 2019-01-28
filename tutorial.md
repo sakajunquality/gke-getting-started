@@ -44,7 +44,7 @@ gcloud services enable \
 GKEのクラスターを作成します。ハンズオンなのでノードは1台にしてあります。
 
 ```bash
-gcloud container clusters create my-hands-on-cluster --enable-ip-alias --num-nodes=1 --zone=us-west1-b --cluster-version=1.10.7-gke.6 --async
+gcloud container clusters create my-hands-on-cluster --enable-ip-alias --num-nodes=1 --zone=us-west1-b --cluster-version=1.11.6-gke.3 --async
 ```
 
 ### 1.4 クラスターの確認
