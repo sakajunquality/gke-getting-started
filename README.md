@@ -22,16 +22,28 @@ cloudshell launch-tutorial -d tutorial2.md
 Contents
 ---
 
+Part 1
+
 - 1. GKE クラスターの作成
 - 2. kubectl 入門
 - 3. アプリケーションのデプロイ
 - 4. アプリケーションのアップデート
 - 5. 2つ目のアプリケーションのデプロイ
 
+
+Part 2
+
+- 1. 簡易Webアプリケーションの作成
+- 2. docker-composeからの移行
+- 3. skaffoldの紹介
+- 4. skaffoldを利用した開発
+- 5. 片付け
+
 Instrutions
 ---
 
-- https://speakerdeck.com/sakajunquality/gke-getting-started
+- [Part 1](https://speakerdeck.com/sakajunquality/gke-getting-started)
+- [Part 2](https://speakerdeck.com/sakajunquality/gke-getting-started-part-2)
 
 
 Author
