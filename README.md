@@ -12,6 +12,13 @@ or start tutorial manually on CloudShell
 cloudshell launch-tutorial -d tutorial.md
 ```
 
+
+To start the second part of tutorial, type the folloing.
+
+```bash
+cloudshell launch-tutorial -d tutorial2.md
+```
+
 Contents
 ---
 
