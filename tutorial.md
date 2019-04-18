@@ -16,15 +16,20 @@ GKEのクラスターを作成します。
 ## 1.1 ProjectID の指定
 
 ```bash
-export PROJECT_ID=my-cool-project
+gcloud config set project "自身のプロジェクト名"
 ```
 
 - ※ 自身のプロジェクト名を指定してください
 - ※ 途中でやり直す場合はこちらを確認ください
 
+```bash
+export PROJECT_ID=$(gcloud config get-value project)
+```
+
+プロジェクトの確認
 
 ```bash
-gcloud config set project $PROJECT_ID
+export $PROJECT_ID
 ```
 
 ## 1.2 必要なAPIの有効化
@@ -44,7 +49,7 @@ gcloud services enable \
 GKEのクラスターを作成します。ハンズオンなのでノードは1台にしてあります。
 
 ```bash
-gcloud container clusters create my-hands-on-cluster --enable-ip-alias --num-nodes=1 --zone=us-west1-b --cluster-version=1.11.6-gke.3 --async
+gcloud container clusters create my-hands-on-cluster --enable-ip-alias --num-nodes=1 --zone=asia-east1 --async
 ```
 
 ### 1.4 クラスターの確認
@@ -66,7 +71,7 @@ gcloud container clusters list
 ## 2.1 GKE クラスターに接続
 
 ```bash
-gcloud container clusters get-credentials my-hands-on-cluster --zone us-west1-b
+gcloud container clusters get-credentials my-hands-on-cluster --zone asia-east1
 ```
 
 ## 2.2 kubectlでいくつか操作を行う
@@ -389,7 +394,7 @@ kubectl delete -f manifests/service2.yaml
 GKE クラスターの削除
 
 ```bash
-gcloud container clusters delete my-hands-on-cluster --zone=us-west1-b --async
+gcloud container clusters delete my-hands-on-cluster --zone=asia-east1 --async
 ```
 
 静的 IP の削除
