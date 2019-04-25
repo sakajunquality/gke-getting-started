@@ -106,7 +106,7 @@ kubectl config current-context
 もし取得できていない場合は、、、
 
 ```bash
-gcloud container clusters get-credentials my-hands-on-cluster --zone us-west1-b
+gcloud container clusters get-credentials my-hands-on-cluster --zone asia-east1-b
 ```
 
 念の為確認します
@@ -160,7 +160,7 @@ Ctrl+cで終了できますが、devで作成したものをまとめて削除�
 最後にGKEのクラスターを削除します。
 
 ```
-gcloud container clusters delete my-hands-on-cluster --zone=us-west1-b --async
+gcloud container clusters delete my-hands-on-cluster --zone=asia-east1-b --async
 ```
 
 # 6. まとめ
